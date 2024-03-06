@@ -1,5 +1,6 @@
 import requests
 import fitz
+import faiss
 
 from langchain_community.embeddings import GPT4AllEmbeddings
 from langchain_community.vectorstores import FAISS
@@ -21,7 +22,9 @@ def extract_text(filename: str) -> str:
 
     for page in doc:
         text += page.get_text()
-    return text.split('.')
+
+    text_chunks = [text[i:i+100] for i in range(0, len(text), 100)]
+    return text_chunks
 
 
 def create_embeddings(text: str, gpu: bool=False):
