@@ -14,7 +14,7 @@ def download_url(url: str) -> None:
         f.write(response.content)
 
 
-def extract_text(filename: str) -> str:
+def extract_text(filename: str) -> list:
     """Gets text from PDF as a string"""
     text = ''
     doc = fitz.open(filename)
@@ -26,7 +26,7 @@ def extract_text(filename: str) -> str:
     return text_chunks
 
 
-def similarity_search(texts, query):
+def similarity_search(texts: list, query: str) -> str:
     """Performs similarity search between DB embeddings and query"""
     embeddings = GPT4AllEmbeddings()
     text_splitter = RecursiveCharacterTextSplitter(
