@@ -1,10 +1,9 @@
 import requests
 import fitz
-import faiss
 
 from langchain_community.embeddings import GPT4AllEmbeddings
 from langchain_community.vectorstores import FAISS
-from sentence_transformers import SentenceTransformer
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
 def download_url(url: str) -> None:
@@ -27,9 +26,13 @@ def extract_text(filename: str) -> str:
     return text_chunks
 
 
-def create_embeddings(text: str, gpu: bool=False):
-    model = SentenceTransformer(
-        'sentence-transformers/sentence-t5-base', device='cuda' if gpu else 'cpu')
+def similarity_search(texts, query):
+    """Performs similarity search between DB embeddings and query"""
+    embeddings = GPT4AllEmbeddings()
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000, chunk_overlap=0)
+    docs = text_splitter.create_documents(texts)
 
-    embeddings = model.encode(text)
-    return embeddings
+    db = FAISS.from_documents(docs, embeddings)
+    result = db.similarity_search(query)
+    return result[0].page_content
