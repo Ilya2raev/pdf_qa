@@ -46,6 +46,8 @@ def get_llm_answer(query: str, context: str,
        and FAISS context as input variables"""
     model = GPT4All(model_name=model_name, model_path=model_path,
                     device=device)
+    
     output = model.generate(
         f"You are a virtual assistant. Your task is to generate answers to the query based on the context. Context: {context}. Answer the question: {query} ", max_tokens=1000)
-    return output
+    
+    return output if len(output) > 5 else 'No data to answer the question'
