@@ -13,6 +13,7 @@ def download_url(url: str) -> None:
     filename = url.split('/')[-1]
     with open(filename, 'wb') as f:
         f.write(response.content)
+    return filename
 
 
 def extract_text(filename: str) -> list:
