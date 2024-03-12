@@ -51,4 +51,4 @@ def get_llm_answer(query: str, context: str,
     output = model.generate(
         f"You are a virtual assistant. Your task is to generate answers to the query based on the context. Context: {context}. Answer the question: {query} ", max_tokens=1000)
     
-    return output if len(output) > 5 else 'No data to answer the question'
+    return output if len(output) > 2 else 'No data to answer the question'
