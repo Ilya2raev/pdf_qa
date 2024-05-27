@@ -5,8 +5,8 @@ from utils import download_url, extract_text, similarity_search, get_llm_answer
 
 def main(url, query, device):
     filename = download_url(url)
-    text_chunks = extract_text(filename)
-    context = similarity_search(text_chunks, query)
+    text = extract_text(filename)
+    context = similarity_search(text, query)
     output = get_llm_answer(query, context, device=device)
     return output
 
